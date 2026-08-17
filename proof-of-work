@@ -1,0 +1,31 @@
+import hashlib
+import time
+
+data = "Hello Blockchain"
+difficulty = 4
+
+prefix = "0" * difficulty
+nonce = 0
+
+start = time.time()
+
+while True:
+    block = data + str(nonce)
+
+    hash_result = hashlib.sha256(
+        block.encode()
+    ).hexdigest()
+
+    if hash_result.startswith(prefix):
+        break
+
+    nonce += 1
+
+elapsed = time.time() - start
+
+print("Mining successful!")
+print("Data   :", data)
+print("Nonce  :", nonce)
+print("Hash   :", hash_result)
+print("Time   :", round(elapsed, 4), "seconds")
+print("Attempts:", nonce + 1)
