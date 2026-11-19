@@ -1,0 +1,5 @@
+use auxiliary/scanner/portscan/tcp
+set RHOSTS 127.0.0.1
+set PORTS 22,80,443
+run
+exit
