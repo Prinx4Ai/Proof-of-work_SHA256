@@ -1,0 +1,11 @@
+[*] Processing /work/scan.rc for ERB directives.
+resource (/work/scan.rc)> use auxiliary/scanner/portscan/tcp
+resource (/work/scan.rc)> set RHOSTS 127.0.0.1
+RHOSTS => 127.0.0.1
+resource (/work/scan.rc)> set PORTS 22,80,443
+PORTS => 22,80,443
+resource (/work/scan.rc)> run
+[+] 127.0.0.1             - 127.0.0.1:22 - TCP OPEN
+[*] 127.0.0.1             - Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+resource (/work/scan.rc)> exit
