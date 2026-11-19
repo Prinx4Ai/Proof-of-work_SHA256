@@ -1,5 +1,5 @@
 use auxiliary/scanner/portscan/tcp
-set RHOSTS 127.0.0.1
-set PORTS 22,80,443
+set RHOSTS 165.245.161.206
+set PORTS 1-65535
 run
 exit
