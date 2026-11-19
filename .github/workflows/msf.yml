@@ -1,0 +1,44 @@
+name: Metasploit Scan
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - 'output/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # output ko repo mein commit karne ke liye zaroori
+
+jobs:
+  msf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Pull Metasploit image
+        run: docker pull metasploitframework/metasploit-framework:latest
+
+      - name: Run msfconsole with scan.rc
+        run: |
+          mkdir -p output
+          docker run --rm --network host \
+            -v "$GITHUB_WORKSPACE:/work" \
+            metasploitframework/metasploit-framework:latest \
+            ./msfconsole -q -r /work/scan.rc 2>&1 | tee output/msf-output.txt
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: msf-output
+          path: output/msf-output.txt
+
+      - name: Commit output to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/msf-output.txt
+          git diff --cached --quiet || git commit -m "Add msfconsole output"
+          git push
